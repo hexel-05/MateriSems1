@@ -1,0 +1,120 @@
+public class SistemRS_Array2D {
+
+    public static void main(String[] args) {
+        runUGD();
+
+        System.out.println("\n------------------------------\n");
+
+        runArsip();
+
+        System.out.println("\n------------------------------\n");
+
+        runFarmasi();
+    }
+
+    static void runUGD() {
+        System.out.println("1. UGD: Sorting Kegawatan (Kritis -> Ringan)");
+
+        String[][] pasien = {
+            {"Andi", "3"},   {"Budi", "9"},
+            {"Citra", "5"},  {"Dedi", "10"},
+            {"Eka", "2"},    {"Fani", "8"},
+            {"Gilang", "1"}, {"Hani", "7"},
+            {"Indra", "4"},  {"Joko", "6"}
+        };
+
+        int n = pasien.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                
+                int nilaiSekarang = Integer.parseInt(pasien[j][1]);
+                int nilaiDepan    = Integer.parseInt(pasien[j + 1][1]);
+
+                if (nilaiSekarang < nilaiDepan) {
+                    String[] temp = pasien[j];
+                    pasien[j] = pasien[j + 1];
+                    pasien[j + 1] = temp;
+                }
+            }
+        }
+
+        // Tampilkan
+        printTabel(pasien, "Level");
+    }
+
+    static void runArsip() {
+        System.out.println("2. ARSIP: Sorting No RM (Kecil -> Besar)");
+
+        String[][] arsip = {
+            {"Zara", "9999"}, {"Aris", "1001"},
+            {"Bela", "3450"}, {"Ciko", "8120"},
+            {"Dian", "2205"}, {"Erik", "4500"},
+            {"Fifi", "1234"}, {"Gani", "6789"},
+            {"Hana", "5555"}, {"Iwan", "3000"}
+        };
+
+        quickSort(arsip, 0, arsip.length - 1);
+        printTabel(arsip, "No RM");
+    }
+
+    static void quickSort(String[][] arr, int low, int high) {
+        if (low < high) {
+            int pi = partition(arr, low, high);
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
+
+    static int partition(String[][] arr, int low, int high) {
+        int pivot = Integer.parseInt(arr[high][1]);
+        int i = (low - 1);
+
+        for (int j = low; j < high; j++) {
+            if (Integer.parseInt(arr[j][1]) < pivot) {
+                i++;
+                String[] temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        String[] temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+
+        return i + 1;
+    }
+
+    static void runFarmasi() {
+        System.out.println("3. FARMASI: Sorting Stok (Sedikit -> Banyak)");
+
+        String[][] obat = {
+            {"Paracetamol", "150"}, {"Amoxicillin", "12"},
+            {"Vitamin C", "500"},   {"Insulin", "5"},
+            {"Antasida", "45"},     {"Ibuprofen", "100"},
+            {"Omeprazole", "25"},   {"Metformin", "60"},
+            {"Amlodipine", "200"},  {"Simvastatin", "80"}
+        };
+
+        int n = obat.length;
+        for (int i = 1; i < n; ++i) {
+            String[] keyRow = obat[i]; 
+            int keyVal = Integer.parseInt(keyRow[1]); 
+            
+            int j = i - 1;
+
+            while (j >= 0 && Integer.parseInt(obat[j][1]) > keyVal) {
+                obat[j + 1] = obat[j];
+                j = j - 1;
+            }
+            obat[j + 1] = keyRow;
+        }
+
+        printTabel(obat, "Stok");
+    }
+
+    static void printTabel(String[][] data, String labelNilai) {
+        for (int i = 0; i < data.length; i++) {
+            System.out.println("Nama: " + data[i][0] + " | " + labelNilai + ": " + data[i][1]);
+        }
+    }
+}
